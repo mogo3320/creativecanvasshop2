@@ -1,0 +1,25 @@
+entrypoint = "server/index.ts"
+modules = ["nodejs-22"]
+
+run = "npm run start"
+
+[deployment]
+run = ["npm", "start"]
+deploymentTarget = "autoscale"
+ignorePorts = false
+
+[agent]
+expertMode = true
+
+[rules]
+
+[rules.formatter]
+
+[rules.formatter.fileExtensions]
+
+[rules.formatter.fileExtensions.".ts"]
+id = "module:nodejs-22/formatter:prettier"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
