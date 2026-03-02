@@ -9,7 +9,6 @@ app.use(express.json());
 const sqlite = new Database("database.db");
 
 // Initialize Drizzle ORM
-export const db = drizzle(sqlite, { schema });
 
 // Simple test route
 app.get("/", (req, res) => {
