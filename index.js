@@ -2,6 +2,7 @@ import express from "express";
 import Groq from "groq-sdk";
 import { StabilityAI } from "@stability/sdk";
 import cors from "cors";
+console.log("PORT ENV:", process.env.PORT);
 
 const app = express();
 
