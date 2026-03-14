@@ -1,21 +1,19 @@
 import express from "express";
 import cors from "cors";
 
-// Log the Render-assigned port (for debugging)
 console.log("PORT ENV:", process.env.PORT);
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-// Test Route
+// Test route
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
-// ⭐ IMAGE GENERATION ROUTE ⭐
+// Image generation route
 app.post("/api/generate", async (req, res) => {
   try {
     const { prompt, style, colors } = req.body;
@@ -24,12 +22,10 @@ app.post("/api/generate", async (req, res) => {
       return res.status(400).json({ error: "Prompt is required" });
     }
 
-    // Build final prompt
     let finalPrompt = prompt;
     if (style) finalPrompt += `, style: ${style}`;
     if (colors) finalPrompt += `, colors: ${colors}`;
 
-    // Call Stability API
     const response = await fetch(
       "https://api.stability.ai/v2beta/stable-image/generate/ultra",
       {
@@ -53,8 +49,6 @@ app.post("/api/generate", async (req, res) => {
     }
 
     const result = await response.json();
-
-    // Return image URLs
     res.json({ images: result.images });
   } catch (err) {
     console.error("Generation error:", err);
@@ -62,7 +56,7 @@ app.post("/api/generate", async (req, res) => {
   }
 });
 
-// REQUIRED for Render
+// Required for Render
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server running on port", process.env.PORT || 3000);
 });
